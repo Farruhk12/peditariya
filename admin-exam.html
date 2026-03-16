@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Экзаменационные вопросы — Админ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-app">
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img src="https://www.tajmedun.tj/bitrix/templates/tajmedun/images/logo_new2.png" alt="ТГМУ" class="sidebar-logo">
+      <span class="sidebar-title">Админ</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="admin-topics.html" class="sidebar-link">📚 Добавление тем</a>
+      <a href="admin-exam.html" class="sidebar-link active">📝 Экзаменационные вопросы</a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="admin.html" class="sidebar-link-muted">← В админ-панель</a>
+      <a href="index.html" class="sidebar-link-muted">На главную</a>
+    </div>
+  </aside>
+  <div class="app-main">
+    <header class="topbar">
+      <h1 class="topbar-title">Экзаменационные вопросы</h1>
+      <p class="topbar-sub">Добавление списка вопросов по теме</p>
+    </header>
+    <div class="content">
+      <div class="admin-wrap">
+        <h2>📝 Добавить экзаменационные вопросы</h2>
+        <p class="form-hint mb">Формат: <strong>@5Вопрос</strong> — каждая строка начинается с @5.</p>
+        <div id="admin-login" class="admin-sub-block">
+          <div class="admin-sub-title">Вход</div>
+          <div class="input-group">
+            <input type="password" id="adminPwd" class="input" placeholder="Пароль администратора">
+            <button class="btn-primary" id="adminLoginBtn">Войти</button>
+          </div>
+          <p id="adminLoginStatus" class="form-hint"></p>
+        </div>
+        <div id="admin-panel" style="display:none;">
+          <div class="admin-sub-block">
+            <div class="two-col">
+              <div>
+                <label class="label" for="adminExamCourse">Курс</label>
+                <select id="adminExamCourse" class="select">
+                  <option value="">Все курсы</option>
+                  <option value="4">4 курс</option>
+                  <option value="6">6 курс</option>
+                </select>
+              </div>
+              <div>
+                <label class="label" for="adminExamFaculty">Факультет</label>
+                <select id="adminExamFaculty" class="select">
+                  <option value="">Все факультеты</option>
+                  <option value="Педиатрический">Педиатрический</option>
+                  <option value="Лечебный">Лечебный</option>
+                </select>
+              </div>
+            </div>
+            <label class="label" for="adminExamTopic">Тема для вопросов *</label>
+            <select id="adminExamTopic" class="select">
+              <option value="">— Выберите тему —</option>
+            </select>
+            <label class="label" for="adminExamText">Текст из Word</label>
+            <textarea id="adminExamText" class="input input-area" style="min-height:200px" placeholder="@5Рахит у детей&#10;@5Назовите основные причины развития рахита."></textarea>
+            <div class="input-group">
+              <button class="btn-primary" id="adminExamParseBtn">Распарсить</button>
+              <button class="btn-primary" id="adminExamSaveBtn" disabled style="background:var(--danger);border:2px solid var(--danger)">Сохранить</button>
+            </div>
+            <div id="adminExamPreview" class="card" style="display:none;max-height:220px;overflow-y:auto;margin-top:1rem;padding:1rem;"></div>
+            <p id="adminExamStatus" class="form-hint"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="app-footer">
+      <a href="admin.html">← В админ-панель</a>
+      <a href="index.html">На главную</a>
+    </footer>
+  </div>
+</div>
+<script src="config.js"></script>
+<script src="admin-exam.js"></script>
+</body>
+</html>

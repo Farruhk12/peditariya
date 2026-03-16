@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>КДБ №1 — Образовательная платформа</title>
+  <meta name="color-scheme" content="light">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="student-app">
+
+<div id="splash" class="splash">
+  <div class="splash-content">
+    <img class="splash-logo" src="https://www.tajmedun.tj/bitrix/templates/tajmedun/images/logo_new2.png" alt="">
+    <div class="splash-loader"></div>
+    <p class="splash-label">Готовим материалы для вас</p>
+    <p class="splash-sublabel">подождите…</p>
+  </div>
+</div>
+
+<div id="genOverlay" class="overlay-gen">
+  <div class="overlay-gen-card">
+    <div class="overlay-gen-spinner"></div>
+    <p class="overlay-gen-title">Генерируем карточки<span class="dots"></span></p>
+    <p class="overlay-gen-sub">Подождите несколько секунд</p>
+  </div>
+</div>
+
+<div id="onboarding" class="modal-overlay hidden">
+  <div class="modal">
+    <img src="https://www.tajmedun.tj/bitrix/templates/tajmedun/images/logo_new2.png" alt="ТГМУ" class="modal-logo">
+    <h1 class="modal-title">Образовательная платформа</h1>
+    <p class="modal-desc">Кафедра детских болезней №1 · ТГМУ</p>
+    <p class="modal-hint">Выберите курс и факультет — один раз, навсегда.</p>
+    <div class="modal-choices">
+      <label class="choice-label">Ваш курс</label>
+      <div class="choice-btns">
+        <button class="choice-btn" data-g="course" data-v="4">4 курс</button>
+        <button class="choice-btn" data-g="course" data-v="6">6 курс</button>
+      </div>
+    </div>
+    <div class="modal-choices">
+      <label class="choice-label">Факультет</label>
+      <div class="choice-btns">
+        <button class="choice-btn" data-g="faculty" data-v="Педиатрический">Педиатрический</button>
+        <button class="choice-btn" data-g="faculty" data-v="Лечебный">Лечебный</button>
+      </div>
+    </div>
+    <button class="btn-primary btn-full" id="obStart" disabled>Начать обучение</button>
+    <p id="obStatus" class="modal-status"></p>
+  </div>
+</div>
+
+<div class="app-layout">
+  <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="https://www.tajmedun.tj/bitrix/templates/tajmedun/images/logo_new2.png" alt="ТГМУ" class="sidebar-logo">
+      <span class="sidebar-title">КДБ №1</span>
+    </div>
+    <nav class="sidebar-nav" id="block-tabs">
+      <button class="sidebar-link active" id="tab-video">Видео материал</button>
+      <button class="sidebar-link" id="tab-cards">Карточки</button>
+      <button class="sidebar-link" id="tab-exam">Экзаменационные вопросы</button>
+      <button class="sidebar-link" id="tab-selftest">Проверить себя</button>
+      <button class="sidebar-link" id="tab-examfull">Пройти экзамен</button>
+    </nav>
+    <div class="sidebar-footer">
+      <div id="headerMeta" class="header-meta"></div>
+      <a href="admin.html" class="sidebar-admin">Админ</a>
+    </div>
+  </aside>
+
+  <div class="app-main">
+    <header class="topbar">
+      <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="Меню">
+        <span class="sidebar-toggle-icon"></span>
+      </button>
+      <div class="topbar-left">
+        <h1 class="topbar-title">ТГМУ им. Абуали ибни Сино</h1>
+        <p class="topbar-sub">Кафедра детских болезней №1 им. проф. Аминова Х.Дж.</p>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="hero-pick" id="block-select-wrap">
+        <div class="hero-pick-inner" id="block-select">
+          <span class="hero-pick-label">Выберите тему</span>
+          <div class="hero-pick-select-wrap">
+            <select id="topicSelect" class="select hero-select"></select>
+          </div>
+        </div>
+      </div>
+
+      <section class="panel content-card panel-video" id="block-video" hidden>
+        <div class="panel-header">
+          <span class="panel-icon">▶</span>
+          <h2 class="panel-title" id="topicTitle">Тема</h2>
+        </div>
+        <div class="card-body">
+          <div class="video-tabs">
+            <button type="button" class="video-tab active" id="videoTabGeneral" data-video="general">Общий</button>
+            <button type="button" class="video-tab" id="videoTabPathogen" data-video="pathogen">Патогенез</button>
+          </div>
+          <div id="player" class="video-wrap"></div>
+        </div>
+      </section>
+
+      <section class="panel content-card panel-desc" id="block-desc" hidden>
+        <div class="panel-header">
+          <span class="panel-icon">📄</span>
+          <h2 class="panel-title">Описание</h2>
+        </div>
+        <div class="card-body" id="desc"></div>
+      </section>
+
+      <section class="panel content-card panel-ai" id="block-ai" hidden>
+        <div class="panel-header">
+          <span class="panel-icon">💬</span>
+          <h2 class="panel-title">Задай вопрос ИИ</h2>
+        </div>
+        <div class="card-body">
+          <form id="aiForm" class="form">
+            <textarea id="aiQ" class="input input-area" placeholder="Ваш вопрос по теме…" rows="3" required></textarea>
+            <button id="askBtn" class="btn-primary" type="submit">Задать вопрос</button>
+          </form>
+          <p id="aiStatus" class="form-hint"></p>
+          <div id="aiAnswer" class="answer-block" hidden>
+            <strong class="answer-label">Ответ ИИ</strong>
+            <div id="aiAnswerBody" class="answer-body"></div>
+          </div>
+          <hr class="divider">
+          <h3 class="section-label">Вопросы других студентов</h3>
+          <div id="qaBox" class="qa-list">
+            <div class="loading"><span class="spinner-sm"></span> Загрузка…</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel content-card" id="block-social" hidden>
+        <div class="panel-header">
+          <span class="panel-icon">💬</span>
+          <h2 class="panel-title">Обсуждение</h2>
+        </div>
+        <div class="card-body">
+          <div class="social-actions">
+            <button id="likeBtn" class="btn-secondary">👍 Нравится <span class="badge" id="likeCount">0</span></button>
+            <button id="shareBtn" class="btn-outline">↗ Поделиться</button>
+          </div>
+          <form id="commentForm" class="form">
+            <input name="name" type="text" class="input" placeholder="Ваше имя (необязательно)">
+            <textarea name="text" class="input input-area" placeholder="Напишите комментарий…" rows="3" required></textarea>
+            <button class="btn-primary" type="submit">Отправить</button>
+          </form>
+          <p id="commentMsg" class="form-hint"></p>
+          <div id="comments" class="comments-list"></div>
+        </div>
+      </section>
+
+      <section class="panel content-card panel-cards" id="block-cards" hidden>
+        <div class="panel-header">
+          <span class="panel-icon">🃏</span>
+          <h2 class="panel-title">Карточки</h2>
+        </div>
+        <div class="card-body">
+          <p id="cardsStatus" class="form-hint mb"></p>
+          <button class="btn-primary btn-lg" id="genCards">Сгенерировать карточки</button>
+          <div class="cards-stage">
+            <div class="flashcard" id="cardBox" tabindex="0" aria-live="polite">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <h3 id="qTitle" class="flashcard-head">Вопрос</h3>
+                  <p id="qText" class="flashcard-body">Нажмите «Сгенерировать карточки»</p>
+                </div>
+                <div class="flashcard-back">
+                  <h3 class="flashcard-head">Ответ</h3>
+                  <p id="aText" class="flashcard-body">—</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="cardsBar"></div>
+          </div>
+          <div id="cardsCongrats" class="congrats">🎉 Вы просмотрели все карточки!</div>
+          <div class="cards-nav">
+            <button class="btn-outline" id="prevCard">← Назад</button>
+            <span id="cardsCounter" class="cards-count">0/0</span>
+            <button class="btn-primary" id="nextCard">Вперёд →</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel content-card panel-exam" id="block-exam" hidden>
+        <div class="panel-header">
+          <span class="panel-icon">📋</span>
+          <h2 class="panel-title">Экзаменационные вопросы</h2>
+        </div>
+        <div class="card-body">
+          <div id="examList" class="exam-list">
+            <div class="loading"><span class="spinner-sm"></span> Загрузка…</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel content-card panel-selftest" id="block-selftest" hidden>
+        <div class="panel-header">
+          <span class="panel-icon">✓</span>
+          <h2 class="panel-title">Проверить себя</h2>
+        </div>
+        <div class="card-body">
+          <div id="st-idle">
+            <p class="st-desc">До <strong>4 случайных вопроса</strong> из экзаменационных. Напишите ответы — ИИ оценит по <strong>5-балльной шкале</strong> с комментарием.</p>
+            <button class="btn-primary btn-full" id="startST">Начать проверку</button>
+            <p id="stIdleStatus" class="form-hint center"></p>
+          </div>
+          <div id="st-answering" class="st-form" style="display:none">
+            <p class="st-progress" id="stProgress">Вопрос 1 из 4</p>
+            <p id="stQ" class="st-question"></p>
+            <textarea id="stA" class="input input-area" placeholder="Ваш ответ…" rows="5"></textarea>
+            <div class="st-btns">
+              <button class="btn-primary" id="stNext">Следующий →</button>
+              <button class="btn-outline" id="stSkip">Пропустить</button>
+            </div>
+          </div>
+          <div id="st-grading" class="st-loading" style="display:none">
+            <span class="spinner"></span>
+            <p class="st-loading-title">ИИ проверяет ответы<span class="dots"></span></p>
+            <p class="st-loading-sub">5–15 секунд</p>
+          </div>
+          <div id="st-results" style="display:none">
+            <div id="stAvg" class="st-avg"></div>
+            <div id="stResultList" class="st-results-list"></div>
+            <button class="btn-primary btn-full" id="stRetry">Попробовать ещё раз</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel content-card panel-examfull" id="block-examfull" hidden>
+        <div class="panel-header">
+          <span class="panel-icon">📝</span>
+          <h2 class="panel-title">Пройти экзамен</h2>
+        </div>
+        <div class="card-body">
+          <div id="ef-idle">
+            <p class="st-desc">4 случайных вопроса из <strong>разных тем</strong> курса. Напишите ответы — ИИ оценит по <strong>5-балльной шкале</strong>.</p>
+            <button class="btn-primary btn-full" id="startEF">Начать экзамен</button>
+            <p id="efIdleStatus" class="form-hint center"></p>
+          </div>
+          <div id="ef-answering" class="st-form" style="display:none">
+            <p class="st-progress" id="efProgress">Вопрос 1 из 4</p>
+            <p id="efQ" class="st-question"></p>
+            <p id="efTopic" class="form-hint" style="margin-bottom:.5rem"></p>
+            <textarea id="efA" class="input input-area" placeholder="Ваш ответ…" rows="5"></textarea>
+            <div class="st-btns">
+              <button class="btn-primary" id="efNext">Следующий →</button>
+              <button class="btn-outline" id="efSkip">Пропустить</button>
+            </div>
+          </div>
+          <div id="ef-grading" class="st-loading" style="display:none">
+            <span class="spinner"></span>
+            <p class="st-loading-title">ИИ проверяет ответы<span class="dots"></span></p>
+            <p class="st-loading-sub">5–15 секунд</p>
+          </div>
+          <div id="ef-results" style="display:none">
+            <div id="efAvg" class="st-avg"></div>
+            <div id="efResultList" class="st-results-list"></div>
+            <button class="btn-primary btn-full" id="efRetry">Попробовать ещё раз</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="app-footer">
+      <span>Бакоев Фаррух</span>
+      <a href="https://www.instagram.com/doc.farrukh" target="_blank" rel="noopener">doc.farrukh</a>
+    </footer>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

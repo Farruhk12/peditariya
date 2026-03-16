@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Добавление тем — Админ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-app">
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img src="https://www.tajmedun.tj/bitrix/templates/tajmedun/images/logo_new2.png" alt="ТГМУ" class="sidebar-logo">
+      <span class="sidebar-title">Админ</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="admin-topics.html" class="sidebar-link active">📚 Добавление тем</a>
+      <a href="admin-exam.html" class="sidebar-link">📝 Экзаменационные вопросы</a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="admin.html" class="sidebar-link-muted">← В админ-панель</a>
+      <a href="index.html" class="sidebar-link-muted">На главную</a>
+    </div>
+  </aside>
+  <div class="app-main">
+    <header class="topbar">
+      <h1 class="topbar-title">Добавление тем</h1>
+      <p class="topbar-sub">Создание и редактирование тем курса</p>
+    </header>
+    <div class="content">
+      <div class="admin-wrap">
+        <h2>📚 Добавить или редактировать тему</h2>
+        <div id="admin-login" class="admin-sub-block">
+          <div class="admin-sub-title">Вход</div>
+          <div class="input-group">
+            <input type="password" id="adminPwd" class="input" placeholder="Пароль администратора">
+            <button class="btn-primary" id="adminLoginBtn">Войти</button>
+          </div>
+          <p id="adminLoginStatus" class="form-hint"></p>
+        </div>
+        <div id="admin-panel" style="display:none;">
+          <div class="admin-sub-block">
+            <label class="label" for="adminTopicId">ID темы <span class="form-hint">(пусто = новая)</span></label>
+            <div class="input-group">
+              <input type="text" id="adminTopicId" class="input" placeholder="Например: 5">
+              <button class="btn-outline" id="adminLoadBtn">Загрузить</button>
+            </div>
+            <label class="label" for="adminTitle">Название темы *</label>
+            <input type="text" id="adminTitle" class="input" placeholder="Пневмония у детей раннего возраста">
+            <label class="label" for="adminDesc">Описание (Markdown)</label>
+            <textarea id="adminDesc" class="input input-area" style="min-height:140px" placeholder="## Определение&#10;Пневмония — острое инфекционное…"></textarea>
+            <label class="label" for="adminVideo">Ссылка на видео (Общий)</label>
+            <input type="text" id="adminVideo" class="input" placeholder="https://youtu.be/...">
+            <label class="label" for="adminVideoPathogen">Ссылка на видео (Патогенез)</label>
+            <input type="text" id="adminVideoPathogen" class="input" placeholder="https://youtu.be/...">
+            <div class="two-col">
+              <div>
+                <label class="label" for="adminCourse">Курс</label>
+                <select id="adminCourse" class="select">
+                  <option value="">Все курсы</option>
+                  <option value="4">4 курс</option>
+                  <option value="6">6 курс</option>
+                </select>
+              </div>
+              <div>
+                <label class="label" for="adminFaculty">Факультет</label>
+                <select id="adminFaculty" class="select">
+                  <option value="">Все факультеты</option>
+                  <option value="Педиатрический">Педиатрический</option>
+                  <option value="Лечебный">Лечебный</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn-primary" id="adminSaveTopicBtn">Сохранить тему</button>
+            <p id="adminTopicStatus" class="form-hint"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="app-footer">
+      <a href="admin.html">← В админ-панель</a>
+      <a href="index.html">На главную</a>
+    </footer>
+  </div>
+</div>
+<script src="config.js"></script>
+<script src="admin-topics.js"></script>
+</body>
+</html>
