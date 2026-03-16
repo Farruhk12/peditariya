@@ -4,10 +4,10 @@
 
 window.__t0 = performance.now();
 const API = (window.CONFIG && window.CONFIG.GAS_API) || '';
-const USE_LOCAL_SERVER = typeof location !== 'undefined' && location.origin && /^https?:\/\/localhost(:\d+)?$/.test(location.origin);
+const USE_API = typeof location !== 'undefined' && location.origin && location.origin.startsWith('http');
 
 async function aiPost(action, body) {
-  if (USE_LOCAL_SERVER) {
+  if (USE_API) {
     const path = action === 'aiChat' ? '/api/chat' : '/api/grade';
     const reqBody = action === 'aiChat' ? { topicId: body.topicId, question: body.question, topicTitle: body.topicTitle, topicDesc: body.topicDesc, channel: body.channel } : body;
     const r = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(reqBody) });
@@ -103,19 +103,16 @@ function updateTopicsUI() {
 function renderHeaderMeta() {
   const wrap = document.getElementById('headerMeta');
   wrap.innerHTML = '';
-  const sidebarBtn = document.getElementById('sidebarChangePrefsBtn');
+  const changeBtn = document.getElementById('changePrefsBtn');
   if (!USER_PREFS) {
-    if (sidebarBtn) sidebarBtn.style.display = 'none';
+    if (changeBtn) changeBtn.style.display = 'none';
     return;
   }
   wrap.append(
     el('span', {class:'meta-badge'}, [USER_PREFS.course+' курс']),
     el('span', {class:'meta-badge'}, [USER_PREFS.faculty])
   );
-  if (sidebarBtn) {
-    sidebarBtn.style.display = '';
-    sidebarBtn.onclick = () => document.getElementById('onboarding').classList.remove('hidden');
-  }
+  if (changeBtn) changeBtn.style.display = '';
   updateTopicsUI();
 }
 
